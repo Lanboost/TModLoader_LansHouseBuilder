@@ -49,8 +49,7 @@ namespace HouseBuilder
                 Main.LocalPlayer.GetModPlayer<HouseBuilderModPlayer>().houseTileY = tileY;
             }
 
-
-            return true;
+			return true;
         }
 
         public override void AddRecipes()
