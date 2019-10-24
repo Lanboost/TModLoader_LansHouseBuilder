@@ -8,7 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace HouseBuilder
+namespace LansHouseBuilder
 {
     class HouseItemStone : Terraria.ModLoader.ModItem
     {

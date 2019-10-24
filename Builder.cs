@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 
-namespace HouseBuilder
+namespace LansHouseBuilder
 {
     class ItemCost
     {

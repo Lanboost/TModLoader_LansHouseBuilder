@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
-using static HouseBuilder.HouseBuilder;
+using static LansHouseBuilder.HouseBuilder;
 
-namespace HouseBuilder
+namespace LansHouseBuilder
 {
     class HouseBuilderModPlayer:ModPlayer
     {

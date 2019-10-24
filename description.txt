@@ -1,1 +1,2 @@
-HouseBuilder is a pretty cool mod, it does...this. Modify this file with a description of your mod.
+Creates decent houses with a click, perfect for lazy people!
+NOTE: uses resources (builder item can be crafted with 1 dirt)

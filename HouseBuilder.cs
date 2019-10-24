@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace HouseBuilder
+namespace LansHouseBuilder
 {
 	public class HouseBuilder : Mod
 	{

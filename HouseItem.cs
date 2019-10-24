@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static HouseBuilder.HouseBuilder;
+using static LansHouseBuilder.HouseBuilder;
 
-namespace HouseBuilder
+namespace LansHouseBuilder
 {
     class HouseItem : ModItem
     {
