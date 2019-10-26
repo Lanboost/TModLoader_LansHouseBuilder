@@ -12,7 +12,7 @@ namespace LansHouseBuilder
     class HouseBuilderModPlayer:ModPlayer
     {
 
-        public int houseTileX;
+        public int houseTileX = -1;
         public int houseTileY;
         public int houesType;
 
