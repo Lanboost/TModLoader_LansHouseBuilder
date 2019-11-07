@@ -1,2 +1,9 @@
 Creates decent houses with a click, perfect for lazy people!
 NOTE: uses resources (builder item can be crafted with 1 dirt)
+V. 0.11.3:
+	- Fixed/changed the cost to take either a torch or a gel+wood
+V. 0.11.2:
+	- Added a message for the missing items when crafting a house.
+	- Added a real better cursor image for stone houses.
+	- Added snapping to tiles for the cursor image.
+	- Fixed an issue on multiplayer, when crafting a stone house the server created a wood house.
