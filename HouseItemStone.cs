@@ -46,7 +46,8 @@ namespace LansHouseBuilder
             {
                 Main.LocalPlayer.GetModPlayer<HouseBuilderModPlayer>().houseTileX = tileX;
                 Main.LocalPlayer.GetModPlayer<HouseBuilderModPlayer>().houseTileY = tileY;
-            }
+				Main.LocalPlayer.GetModPlayer<HouseBuilderModPlayer>().houesType = 1;
+			}
 
 
             return true;

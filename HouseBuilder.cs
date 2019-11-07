@@ -5,13 +5,14 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace LansHouseBuilder
 {
 	public class HouseBuilder : Mod
 	{
-
+		public static int TorchRecipeGroup;
 		public HouseBuilder()
 		{
 		}
@@ -25,30 +26,74 @@ namespace LansHouseBuilder
 				IL.Terraria.Main.DrawCursor += AddExtraDraw;
 			}
 		}
-		
+
+		public override void AddRecipeGroups()
+		{
+			RecipeGroup group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " Torch", new int[]
+			{
+			ItemID.Torch,
+			ItemID.IceTorch,
+			ItemID.PurpleTorch,
+			ItemID.YellowTorch,
+			ItemID.BlueTorch,
+			ItemID.GreenTorch,
+			ItemID.RedTorch,
+			ItemID.OrangeTorch,
+			ItemID.WhiteTorch,
+			ItemID.PinkTorch,
+			ItemID.CursedTorch,
+			ItemID.IchorTorch,
+			ItemID.DemonTorch,
+			ItemID.RainbowTorch,
+			ItemID.UltrabrightTorch,
+			ItemID.BoneTorch
+
+			});
+			TorchRecipeGroup = RecipeGroup.RegisterGroup("LansHouseBuilder:Torches", group);
+		}
+
 
 		public void AddExtraDraw(ILContext il)
 		{
 			var c = new ILCursor(il);
 
 			var texture = this.GetTexture("housecursor");
+			var texturestone = this.GetTexture("housecursorstone");
 
 			var id1 = this.GetItem("HouseItem").item.type;
 			var id2 = this.GetItem("HouseItemStone").item.type;
 
-			c.EmitDelegate<Action>(delegate () {
-				if (!texture.IsDisposed)
-				{
-					if (Main.LocalPlayer.HeldItem.type == id1)
-					{
-						Microsoft.Xna.Framework.Color color = new Color(255, 255, 255, 127);
-						Main.spriteBatch.Draw(texture, new Vector2((float)Main.mouseX - 8, (float)Main.mouseY - texture.Height + 8) + Vector2.One, null, color, 0f, default(Vector2), 1, SpriteEffects.None, 0f);
-					}
-					else if (Main.LocalPlayer.HeldItem.type == id2)
-					{
-						Microsoft.Xna.Framework.Color color = new Color(255, 255, 255, 127);
-						Main.spriteBatch.Draw(texture, new Vector2((float)Main.mouseX - 8, (float)Main.mouseY - texture.Height + 8) + Vector2.One, null, color, 0f, default(Vector2), 1, SpriteEffects.None, 0f);
 
+
+			c.EmitDelegate<Action>(delegate () {
+
+				Vector2 mousePosition = Main.MouseWorld;
+
+				var tileCoord = mousePosition.ToTileCoordinates();
+
+				var displayCoord = tileCoord.ToWorldCoordinates() - Main.screenPosition;
+
+				if (!Main.gameMenu)
+				{
+
+
+					if (!texture.IsDisposed)
+					{
+						if (Main.LocalPlayer.HeldItem.type == id1)
+						{
+							Microsoft.Xna.Framework.Color color = new Color(255, 255, 255, 127);
+							Main.spriteBatch.Draw(texture, new Vector2((float)displayCoord.X - 8, (float)displayCoord.Y - texture.Height + 8) + Vector2.One, null, color, 0f, default(Vector2), 1, SpriteEffects.None, 0f);
+						}
+					}
+
+					if (!texturestone.IsDisposed)
+					{
+						if (Main.LocalPlayer.HeldItem.type == id2)
+						{
+							Microsoft.Xna.Framework.Color color = new Color(255, 255, 255, 127);
+							Main.spriteBatch.Draw(texturestone, new Vector2((float)displayCoord.X - 8, (float)displayCoord.Y - texture.Height + 8) + Vector2.One, null, color, 0f, default(Vector2), 1, SpriteEffects.None, 0f);
+
+						}
 					}
 				}
 			});
