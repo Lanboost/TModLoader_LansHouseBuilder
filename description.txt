@@ -1,5 +1,9 @@
 Creates decent houses with a click, perfect for lazy people!
 NOTE: uses resources (builder item can be crafted with 1 dirt)
+
+
+Changelog:
+
 V. 0.11.3:
 	- Fixed/changed the cost to take either a torch or a gel+wood
 V. 0.11.2:
