@@ -1,5 +1,4 @@
-﻿using LansLibrary;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,12 +67,12 @@ namespace LansHouseBuilder
     class HouseBlock
     {
         public int NetID;
-        public InventoryChangeStatement costStatement;
+        public ItemCost[] cost;
 
-        public HouseBlock(int netID, InventoryChangeStatement costStatement)
+        public HouseBlock(int netID, ItemCost[] cost)
         {
             NetID = netID;
-            this.costStatement = costStatement;
+            this.cost = cost;
         }
     }
 
@@ -83,35 +82,27 @@ namespace LansHouseBuilder
 
         public static HouseBlock[][] houseblocks = new HouseBlock[][] {
                 new HouseBlock[] {
-                    new HouseBlock(TileID.WoodBlock, new InventoryChangeStatementRemove(-1, 1, RecipeGroupID.Wood)),
-                    new HouseBlock(TileID.Platforms, new InventoryChangeStatementRemove(-1, 1, RecipeGroupID.Wood)),
-                    new HouseBlock(TileID.WorkBenches, new InventoryChangeStatementRemove(-1, 10, RecipeGroupID.Wood)),
-                    new HouseBlock(TileID.Chairs, new InventoryChangeStatementRemove(-1, 4, RecipeGroupID.Wood)),
-                    new HouseBlock(TileID.Torches, new InventoryChangeStatementOr(
-						new InventoryChangeStatementAnd(
-							new InventoryChangeStatementRemove(-1, 1, RecipeGroupID.Wood),new InventoryChangeStatementRemove(ItemID.Gel, 1)),
-						new InventoryChangeStatementRemove(-1, 1, HouseBuilder.TorchRecipeGroup))
-						)
+                    new HouseBlock(TileID.WoodBlock, new ItemCost[] {new ItemCost(ItemID.Wood, 1) }),
+                    new HouseBlock(TileID.Platforms, new ItemCost[] {new ItemCost(ItemID.Wood, 1)}),
+                    new HouseBlock(TileID.WorkBenches, new ItemCost[] {new ItemCost(ItemID.Wood, 10)}),
+                    new HouseBlock(TileID.Chairs, new ItemCost[] {new ItemCost(ItemID.Wood, 4)}),
+                    new HouseBlock(TileID.Torches, new ItemCost[] { new ItemCost(ItemID.Gel, 1), new ItemCost(ItemID.Wood, 1) }),
                 },
                 new HouseBlock[] {
-                    new HouseBlock(TileID.Stone, new InventoryChangeStatementRemove(ItemID.StoneBlock, 1)),
-					new HouseBlock(TileID.Platforms, new InventoryChangeStatementRemove(-1, 1, RecipeGroupID.Wood)),
-					new HouseBlock(TileID.WorkBenches, new InventoryChangeStatementRemove(-1, 10, RecipeGroupID.Wood)),
-					new HouseBlock(TileID.Chairs, new InventoryChangeStatementRemove(-1, 4, RecipeGroupID.Wood)),
-					new HouseBlock(TileID.Torches, new InventoryChangeStatementOr(
-						new InventoryChangeStatementAnd(
-							new InventoryChangeStatementRemove(-1, 1, RecipeGroupID.Wood),new InventoryChangeStatementRemove(ItemID.Gel, 1)),
-						new InventoryChangeStatementRemove(-1, 1, HouseBuilder.TorchRecipeGroup))
-						)
-				},
+                    new HouseBlock(TileID.Stone, new ItemCost[] {new ItemCost(ItemID.StoneBlock, 1) }),
+                    new HouseBlock(TileID.Platforms, new ItemCost[] {new ItemCost(ItemID.Wood, 1)}),
+                    new HouseBlock(TileID.WorkBenches, new ItemCost[] {new ItemCost(ItemID.Wood, 10)}),
+                    new HouseBlock(TileID.Chairs, new ItemCost[] {new ItemCost(ItemID.Wood, 4)}),
+                    new HouseBlock(TileID.Torches, new ItemCost[] { new ItemCost(ItemID.Gel, 1), new ItemCost(ItemID.Wood, 1) }),
+                },
             };
 
         public static HouseBlock[][] housewalls = new HouseBlock[][] {
                 new HouseBlock[] {
-                    new HouseBlock(WallID.Wood, new InventoryChangeStatementRemove(-1, 1, RecipeGroupID.Wood)),
+                    new HouseBlock(WallID.Wood, new ItemCost[] {new ItemCost(ItemID.Wood, 1)}),
                 },
                 new HouseBlock[] {
-                    new HouseBlock(WallID.Stone, new InventoryChangeStatementRemove(ItemID.StoneBlock, 1)),
+                    new HouseBlock(WallID.Stone, new ItemCost[] {new ItemCost(ItemID.StoneBlock, 1)}),
                 },
             };
 
@@ -165,10 +156,79 @@ namespace LansHouseBuilder
             return Main.tile[i, j].wall == WallID.None;
         }
 
+        public static bool CanPayCost(ItemCost cost, Player player)
+        {
+            int count = 0;
+            foreach (var v in player.inventory)
+            {
+                if (v != null)
+                {
+                    if (v.netID == cost.itemid)
+                    {
+                        count += v.stack;
+                    }
+                }
+            }
+
+            return count >= cost.count;
+        }
+
+        public static bool CanPayCost(ItemCost[] cost, Player player)
+        {
+            foreach (var v in cost)
+            {
+                if (!CanPayCost(v, player))
+                {
+					Item item = new Item();
+					item.SetDefaults(v.itemid);
+
+					Main.NewText("You need " + v.count + " of " + item.HoverName + " to build a house.");
+
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static void PayCost(ItemCost cost, Player player)
+        {
+            int count = cost.count;
+
+            foreach (var v in player.inventory)
+            {
+                if (v != null)
+                {
+                    if (v.netID == cost.itemid)
+                    {
+                        if (v.stack <= count)
+                        {
+                            count -= v.stack;
+                            v.TurnToAir();
+                        }
+                        else
+                        {
+                            v.stack -= count;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void PayCost(ItemCost[] cost, Player player)
+        {
+            foreach (var v in cost)
+            {
+                PayCost(v, player);
+            }
+        }
+
+
         public static bool BuildHouse(int tileX, int tileY, int type, bool local = false)
         {
+            
 
-			List<InventoryChangeStatement> statements = new List<InventoryChangeStatement>();
+            CostHandler ch = new CostHandler();
 
             int bound0 = Tiles.GetUpperBound(1) + 1;
             int bound1 = Tiles.GetUpperBound(0) + 1;
@@ -206,7 +266,7 @@ namespace LansHouseBuilder
                                         return false;
                                     }
 
-									statements.Add(houseblocks[type][id].costStatement);
+                                    ch.Add(houseblocks[type][id].cost);
                                     build = true;
                                 }
                             }
@@ -225,7 +285,7 @@ namespace LansHouseBuilder
                                         return false;
                                     }
 
-									statements.Add(housewalls[type][id].costStatement);
+                                    ch.Add(housewalls[type][id].cost);
                                     build = true;
                                 }
                             }
@@ -237,11 +297,15 @@ namespace LansHouseBuilder
                 {
                     return false;
                 }
-				
-                if (!InventoryChangeHelper.RemoveFromPlayer(new InventoryChangeStatementAnd(statements.ToArray())))
+
+                if (!CanPayCost(ch.ToArray(), Main.LocalPlayer))
                 {
+                    Main.NewText("Failed! You cannot pay for the house cost.", new Color(255, 0, 0));
                     return false;
                 }
+                PayCost(ch.ToArray(), Main.LocalPlayer);
+
+                
             }
 
 

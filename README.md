@@ -4,6 +4,12 @@ NOTE: uses resources (builder item can be crafted with 1 dirt)
 
 
 # Change log:
+V. 0.11.4:
+
+	- Fixed/added null checks for basically everything in DrawCursor as this is apperently needed #notsalty
+		who knows if this will actually help...
+
+
 V. 0.11.3:
 
 	- Fixed/changed the cost to take either a torch or a gel+wood
