@@ -224,6 +224,20 @@ namespace LansHouseBuilder
         }
 
 
+		public static void PrintDebug(int cx, int cy, int x, int y, int tile=-1, int wall=-1)
+		{
+			var idmsg = "";
+			if (tile != -1)
+			{
+				idmsg = $"TileId: {tile}";
+			}
+			else
+			{
+				idmsg = $"WallId: {wall}";
+			}
+			Main.NewText($"    {idmsg} Offset=[X:{x}, Y:{y}] World=[X:{cx}, Y:{cy}].", new Color(255, 0, 0));
+		}
+
         public static bool BuildHouse(int tileX, int tileY, int type, bool local = false)
         {
             
@@ -249,7 +263,9 @@ namespace LansHouseBuilder
                             if (!CanPlaceTile(cx, cy, TileID.Dirt))
                             {
                                 Main.NewText("Failed! The house would interfere with blocks already present.", new Color(255, 0, 0));
-                                return false;
+								PrintDebug(cx, cy, x, y, Main.tile[cx, cy].type);
+
+								return false;
                             }
                         }
 
@@ -263,7 +279,8 @@ namespace LansHouseBuilder
                                     if (!CanPlaceTile(cx, cy, houseblocks[type][id].NetID))
                                     {
                                         Main.NewText("Failed! The house would interfere with blocks already present.", new Color(255, 0, 0));
-                                        return false;
+										PrintDebug(cx, cy, x, y, Main.tile[cx, cy].type);
+										return false;
                                     }
 
                                     ch.Add(houseblocks[type][id].cost);
@@ -281,8 +298,9 @@ namespace LansHouseBuilder
                                 {
                                     if (!CanPlaceWall(cx, cy, housewalls[type][id].NetID))
                                     {
-                                        Main.NewText("Failed! The house would interfere with blocks already present.", new Color(255, 0, 0));
-                                        return false;
+                                        Main.NewText("Failed! The house would interfere with walls already present.", new Color(255, 0, 0));
+										PrintDebug(cx, cy, x, y, -1, Main.tile[cx, cy].wall);
+										return false;
                                     }
 
                                     ch.Add(housewalls[type][id].cost);

@@ -4,6 +4,11 @@ NOTE: uses resources (builder item can be crafted with 1 dirt)
 
 
 # Change log:
+V. 0.11.5:
+
+	- Added better failure message to better indicate what is wrong
+
+
 V. 0.11.4:
 
 	- Fixed/added null checks for basically everything in DrawCursor as this is apperently needed #notsalty
