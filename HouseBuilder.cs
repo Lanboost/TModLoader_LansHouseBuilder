@@ -57,53 +57,49 @@ namespace LansHouseBuilder
 		{
 			var c = new ILCursor(il);
 
-			var texture = this.GetTexture("housecursor");
-			var texturestone = this.GetTexture("housecursorstone");
+			var textureReq = ModContent.Request<Texture2D>("LansHouseBuilder/housecursor");
+			var texturestoneReq = ModContent.Request<Texture2D>("LansHouseBuilder/housecursorstone");
 			
 			c.EmitDelegate<Action>(delegate () {
-				
-				Vector2 mousePosition = Main.MouseWorld;
+				float scaleFactor = 1f / Main.UIScale;
 
-				if (Main.LocalPlayer == null || Main.LocalPlayer.HeldItem == null || mousePosition == null || Main.spriteBatch == null)
+				var correctedMousePosition = Main.MouseScreen * Main.UIScale;
+
+				//Vector2 mousePosition = Main.MouseWorld;
+				Vector2 mousePosition = Main.screenPosition+ correctedMousePosition;
+				var mouseScreen = Main.MouseScreen;
+				var screenPosition = Main.screenPosition;
+				if (Main.LocalPlayer == null || Main.LocalPlayer.HeldItem == null || Main.spriteBatch == null)
 				{
 					return;
 				}
 
 				var tileCoord = mousePosition.ToTileCoordinates();
 
-				var displayCoord = tileCoord.ToWorldCoordinates() - Main.screenPosition;
+				var displayCoord = tileCoord.ToWorldCoordinates(0,16) - Main.screenPosition;
+
+				var texture = textureReq.Value;
+				var texturestone = texturestoneReq.Value;
 
 				if (!Main.gameMenu)
 				{
 					if (texture != null && !texture.IsDisposed)
 					{
-						var item1 = this.GetItem("HouseItem");
-						if (item1 != null && item1.item != null)
+						if (Main.LocalPlayer.HeldItem.type == ModContent.ItemType<HouseItem>())
 						{
-							var id1 = item1.item.type;
-
-
-							if (Main.LocalPlayer.HeldItem.type == id1)
-							{
-								Microsoft.Xna.Framework.Color color = new Color(255, 255, 255, 127);
-								Main.spriteBatch.Draw(texture, new Vector2((float)displayCoord.X - 8, (float)displayCoord.Y - texture.Height + 8) + Vector2.One, null, color, 0f, default(Vector2), 1, SpriteEffects.None, 0f);
-							}
+							Microsoft.Xna.Framework.Color color = new Color(255, 255, 255, 127);
+							Main.spriteBatch.Draw(texture, (new Vector2((float)displayCoord.X, (float)displayCoord.Y - texture.Height)) * scaleFactor, null, color, 0f, default(Vector2), scaleFactor, SpriteEffects.None, 0f);
 						}
+						
 					}
 
 					if (texturestone != null && !texturestone.IsDisposed)
 					{
-						var item2 = this.GetItem("HouseItemStone");
-						if (item2 != null && item2.item != null)
+						if (Main.LocalPlayer.HeldItem.type == ModContent.ItemType<HouseItemStone>())
 						{
-							var id2 = item2.item.type;
+							Microsoft.Xna.Framework.Color color = new Color(255, 255, 255, 127);
+							Main.spriteBatch.Draw(texturestone, (new Vector2((float)displayCoord.X, (float)displayCoord.Y - texture.Height)) * scaleFactor, null, color, 0f, default(Vector2), scaleFactor, SpriteEffects.None, 0f);
 
-							if (Main.LocalPlayer.HeldItem.type == id2)
-							{
-								Microsoft.Xna.Framework.Color color = new Color(255, 255, 255, 127);
-								Main.spriteBatch.Draw(texturestone, new Vector2((float)displayCoord.X - 8, (float)displayCoord.Y - texture.Height + 8) + Vector2.One, null, color, 0f, default(Vector2), 1, SpriteEffects.None, 0f);
-
-							}
 						}
 					}
 				}

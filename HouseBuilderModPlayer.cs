@@ -16,12 +16,22 @@ namespace LansHouseBuilder
         public int houseTileY;
         public int houesType;
 
+
+        public override void clientClone(ModPlayer clientClone)
+        {
+            base.clientClone(clientClone);
+        }
+
+        public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
+        {
+            base.SyncPlayer(toWho, fromWho, newPlayer);
+        }
         public override void SendClientChanges(ModPlayer clientPlayer)
         {            
 
             if (houseTileX != -1)
             {
-                var packet = mod.GetPacket();
+                var packet = Mod.GetPacket();
                 packet.Write((byte)HouseBuilderModMessageType.HouseBuilderBuildHouse);
                 packet.Write((byte)Main.LocalPlayer.whoAmI);
                 packet.Write(houseTileX);

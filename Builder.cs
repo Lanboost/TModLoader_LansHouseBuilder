@@ -147,13 +147,13 @@ namespace LansHouseBuilder
             {
                 return CanPlaceTile(i, j, ItemID.DirtBlock) && CanPlaceTile(i+1, j, ItemID.DirtBlock);
             }
-            return Collision.EmptyTile(i, j, false) && !Main.tile[i, j].active();
+            return Collision.EmptyTile(i, j, false) && !Main.tile[i, j].HasTile;
             
         }
 
         public static bool CanPlaceWall(int i, int j, int type)
         {
-            return Main.tile[i, j].wall == WallID.None;
+            return Main.tile[i, j].WallType == WallID.None;
         }
 
         public static bool CanPayCost(ItemCost cost, Player player)
@@ -263,7 +263,7 @@ namespace LansHouseBuilder
                             if (!CanPlaceTile(cx, cy, TileID.Dirt))
                             {
                                 Main.NewText("Failed! The house would interfere with blocks already present.", new Color(255, 0, 0));
-								PrintDebug(cx, cy, x, y, Main.tile[cx, cy].type);
+								PrintDebug(cx, cy, x, y, Main.tile[cx, cy].TileType);
 
 								return false;
                             }
@@ -274,12 +274,12 @@ namespace LansHouseBuilder
                             if (id == i)
                             {
 
-                                if (Main.tile[cx, cy].type != houseblocks[type][id].NetID)
+                                if (Main.tile[cx, cy].TileType != houseblocks[type][id].NetID)
                                 {
                                     if (!CanPlaceTile(cx, cy, houseblocks[type][id].NetID))
                                     {
                                         Main.NewText("Failed! The house would interfere with blocks already present.", new Color(255, 0, 0));
-										PrintDebug(cx, cy, x, y, Main.tile[cx, cy].type);
+										PrintDebug(cx, cy, x, y, Main.tile[cx, cy].TileType);
 										return false;
                                     }
 
@@ -294,12 +294,12 @@ namespace LansHouseBuilder
                         {
                             if (id == i)
                             {
-                                if (Main.tile[cx, cy].wall != housewalls[type][id].NetID)
+                                if (Main.tile[cx, cy].WallType != housewalls[type][id].NetID)
                                 {
                                     if (!CanPlaceWall(cx, cy, housewalls[type][id].NetID))
                                     {
                                         Main.NewText("Failed! The house would interfere with walls already present.", new Color(255, 0, 0));
-										PrintDebug(cx, cy, x, y, -1, Main.tile[cx, cy].wall);
+										PrintDebug(cx, cy, x, y, -1, Main.tile[cx, cy].WallType);
 										return false;
                                     }
 
@@ -340,7 +340,7 @@ namespace LansHouseBuilder
                         if (id == i)
                         {
 
-                            if (Main.tile[cx, cy].type != houseblocks[type][id].NetID)
+                            if (Main.tile[cx, cy].TileType != houseblocks[type][id].NetID)
                             {
                                 WorldGen.PlaceTile(cx, cy, houseblocks[type][id].NetID);
                             }
@@ -362,7 +362,7 @@ namespace LansHouseBuilder
                         if (id == i)
                         {
 
-                            if (Main.tile[cx, cy].wall != housewalls[type][id].NetID)
+                            if (Main.tile[cx, cy].WallType != housewalls[type][id].NetID)
                             {
                                 WorldGen.PlaceWall(cx, cy, housewalls[type][id].NetID);
                             }

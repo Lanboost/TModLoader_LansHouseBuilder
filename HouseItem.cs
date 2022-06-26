@@ -21,16 +21,16 @@ namespace LansHouseBuilder
 
         public override void SetDefaults()
         {
-            item.useTime = 5;
-            item.useAnimation = 5;
-            item.useStyle = 5;
-            item.width = 20;
-            item.height = 20;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
+            Item.useStyle = 5;
+            Item.width = 20;
+            Item.height = 20;
             //item.consumable = true;
         }
         
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
         {
             if (player.whoAmI != Main.LocalPlayer.whoAmI)
             {
@@ -55,11 +55,9 @@ namespace LansHouseBuilder
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Wood, 1);
-            recipe.anyWood = true;
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            Recipe recipe = CreateRecipe(1);
+            recipe.AddRecipeGroup("Wood", 1);
+            recipe.Register();
         }
     }
 }
