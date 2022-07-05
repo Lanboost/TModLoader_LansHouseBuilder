@@ -1,6 +1,6 @@
 displayName = Lan's House Builder
 author = Lanboost
-version = 2022.06.26
+version = 2022.07.05
 includePDB = true
 includeSource = true
 homepage = https://github.com/Lanboost/TModLoader_LansHouseBuilder
