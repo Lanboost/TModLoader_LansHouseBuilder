@@ -4,6 +4,13 @@ NOTE: uses resources (builder item can be crafted with 1 dirt)
 
 
 # Change log:
+
+V. 2022.07.19:
+	- Fix incorrect requirement of wood instead of dirt to craft the house building items.
+
+V. 2022.07.05:
+	- Updated because tmodloader asked me too...
+
 V. 0.11.5:
 
 	- Added better failure message to better indicate what is wrong

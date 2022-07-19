@@ -1,2 +1,5 @@
+V. 2022.07.19:
+	- Fix incorrect requirement of wood instead of dirt to craft the house building items.
+
 V. 2022.07.05:
 	- Updated because tmodloader asked me too...

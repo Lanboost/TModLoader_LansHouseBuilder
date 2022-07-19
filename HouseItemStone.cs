@@ -25,11 +25,10 @@ namespace LansHouseBuilder
             Item.useStyle = 5;
             Item.width = 20;
             Item.height = 20;
-            //item.consumable = true;
         }
 
 
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+        public override bool? UseItem(Player player)
         {
             if (player.whoAmI != Main.LocalPlayer.whoAmI)
             {
@@ -56,7 +55,7 @@ namespace LansHouseBuilder
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe(1);
-            recipe.AddRecipeGroup("Wood", 1);
+            recipe.AddIngredient(ItemID.DirtBlock, 1);
             recipe.Register();
         }
     }
