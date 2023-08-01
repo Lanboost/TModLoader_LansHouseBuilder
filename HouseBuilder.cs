@@ -23,11 +23,11 @@ namespace LansHouseBuilder
 
 			if (Main.netMode != NetmodeID.Server)
 			{
-				IL.Terraria.Main.DrawCursor += AddExtraDraw;
+				Terraria.IL_Main.DrawCursor += AddExtraDraw;
 			}
 		}
 
-		public override void AddRecipeGroups()
+		public override void AddRecipeGroups()/* tModPorter Note: Removed. Use ModSystem.AddRecipeGroups */
 		{
 			RecipeGroup group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " Torch", new int[]
 			{

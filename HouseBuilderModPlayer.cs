@@ -17,9 +17,9 @@ namespace LansHouseBuilder
         public int houesType;
 
 
-        public override void clientClone(ModPlayer clientClone)
+        public override void CopyClientState(ModPlayer clientClone)
         {
-            base.clientClone(clientClone);
+            base.CopyClientState(clientClone);
         }
 
         public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)

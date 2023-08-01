@@ -1,0 +1,11 @@
+Items: {
+	HouseItem: {
+		DisplayName: House Item
+		Tooltip: ""
+	}
+
+	HouseItemStone: {
+		DisplayName: House Item Stone
+		Tooltip: ""
+	}
+}

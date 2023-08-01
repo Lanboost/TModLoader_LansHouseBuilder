@@ -1,20 +1,2 @@
 Creates decent houses with a click, perfect for lazy people!
 NOTE: uses resources (builder item can be crafted with 1 dirt)
-
-
-Changelog:
-V. 2022.07.05:
-	- Updated because tmodloader asked me too...
-
-V. 0.11.5:
-	- Added better failure message to better indicate what is wrong
-V. 0.11.4:
-	- Fixed/added null checks for basically everything in DrawCursor as this is apperently needed #notsalty
-		who knows if this will actually help...
-V. 0.11.3:
-	- Fixed/changed the cost to take either a torch or a gel+wood
-V. 0.11.2:
-	- Added a message for the missing items when crafting a house.
-	- Added a real better cursor image for stone houses.
-	- Added snapping to tiles for the cursor image.
-	- Fixed an issue on multiplayer, when crafting a stone house the server created a wood house.

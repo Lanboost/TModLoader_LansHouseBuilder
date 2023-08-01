@@ -14,8 +14,8 @@ namespace LansHouseBuilder
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Creates a basic and suitable house.");
-            DisplayName.SetDefault("HouseBuilder (Stone)");
+            // Tooltip.SetDefault("Creates a basic and suitable house.");
+            // DisplayName.SetDefault("HouseBuilder (Stone)");
         }
 
         public override void SetDefaults()
